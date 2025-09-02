@@ -20,19 +20,9 @@
           const noHash = !location.hash || location.hash === '#' || !location.hash.trim();
           if (noHash) {
             const abs = new URL(DEFAULT_XML, location.href).href;
+            // marca que o hash foi gerado automaticamente
+            window.__autoOpenDefault = true;
             location.replace('#open:' + encodeURIComponent(abs));
-          }
-          const originalRawOpen = IDE_Morph && IDE_Morph.prototype.rawOpenProjectString;
-          if (originalRawOpen) {
-            IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
-              const result = originalRawOpen.call(this, xml, importMedia);
-              if (location.hash && (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
-                setTimeout(() => {
-                  history.replaceState(null, document.title, location.pathname);
-                }, 0);
-              }
-              return result;
-            };
           }
         })();
         </script>
@@ -61,6 +51,30 @@
         <script src="src/embroider.js?version=2024-05-09"></script>
         <script src="src/sha512.js?version=2019-06-27"></script>
         <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+
+        <script>
+        (function () {
+          const hook = () => {
+            const original = IDE_Morph.prototype.rawOpenProjectString;
+            IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
+              const result = original.call(this, xml, importMedia);
+              if (window.__autoOpenDefault &&
+                  location.hash &&
+                  (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
+                setTimeout(() => {
+                  history.replaceState(null, document.title, location.pathname);
+                  window.__autoOpenDefault = false;
+                }, 0);
+              }
+              return result;
+            };
+          };
+          window.addEventListener('DOMContentLoaded', () => {
+            if (window.IDE_Morph) hook();
+          });
+        })();
+        </script>
+
         <script>Process.prototype.enableJS = true;</script>
         <script>
             var world;
