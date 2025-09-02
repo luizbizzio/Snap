@@ -14,13 +14,16 @@
         <meta name="msapplication-TileImage" content="img/snap-icon-144.png">
         <meta name="msapplication-TileColor" content="#FFFFFF">
 
-                <script>
+        <script>
         (function () {
           const DEFAULT_XML = 'projects/mochiCard3_minimal.xml';
           const noHash = !location.hash || location.hash === '#' || !location.hash.trim();
           if (noHash) {
             const abs = new URL(DEFAULT_XML, location.href).href;
             location.replace('#open:' + encodeURIComponent(abs));
+            window.addEventListener('load', () => {
+              history.replaceState(null, document.title, location.pathname);
+            });
           }
         })();
         </script>
@@ -49,7 +52,6 @@
         <script src="src/embroider.js?version=2024-05-09"></script>
         <script src="src/sha512.js?version=2019-06-27"></script>
         <script src="src/FileSaver.min.js?version=2019-06-27"></script>
-
         <script>Process.prototype.enableJS = true;</script>
         <script>
             var world;
