@@ -62,7 +62,7 @@ Cloud.prototype.disable = function () {
 Cloud.MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 Cloud.prototype.knownDomains = {
-    'Snap!Cloud' : 'https://snap.berkeley.edu',
+    'Snap!Cloud' : 'https://snap-cloud.cs10.org',
     'Snap!Cloud (cs10)' : 'https://snap-cloud.cs10.org',
     'Snap!Cloud (staging)': 'https://snap-staging.cs10.org',
     'localhost': 'http://localhost:8080',
