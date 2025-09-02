@@ -21,9 +21,18 @@
           if (noHash) {
             const abs = new URL(DEFAULT_XML, location.href).href;
             location.replace('#open:' + encodeURIComponent(abs));
-            window.addEventListener('load', () => {
-              history.replaceState(null, document.title, location.pathname);
-            });
+          }
+          const originalRawOpen = IDE_Morph && IDE_Morph.prototype.rawOpenProjectString;
+          if (originalRawOpen) {
+            IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
+              const result = originalRawOpen.call(this, xml, importMedia);
+              if (location.hash && (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
+                setTimeout(() => {
+                  history.replaceState(null, document.title, location.pathname);
+                }, 0);
+              }
+              return result;
+            };
           }
         })();
         </script>
