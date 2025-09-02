@@ -37,6 +37,25 @@
         <script src="src/embroider.js?version=2024-05-09"></script>
         <script src="src/sha512.js?version=2019-06-27"></script>
         <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+
+        <script>
+(function () {
+  const DEFAULT_XML_URL = 'projects/mochiCard3_minimal.xml';
+  const originalOpenIn = IDE_Morph.prototype.openIn;
+
+  IDE_Morph.prototype.openIn = function (world) {
+    // só aplica se não tiver projeto no hash
+    const justSnap = !location.hash || location.hash === '#' || location.hash.trim() === '';
+
+    if (justSnap) {
+      this.config = this.config || {};
+      this.config.load = DEFAULT_XML_URL;
+    }
+
+    return originalOpenIn.call(this, world);
+  };
+})();
+</script>
         <script>Process.prototype.enableJS = true;</script>
         <script>
             var world;
