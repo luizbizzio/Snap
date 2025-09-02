@@ -37,27 +37,19 @@
         <script src="src/embroider.js?version=2024-05-09"></script>
         <script src="src/sha512.js?version=2019-06-27"></script>
         <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+        <script>Process.prototype.enableJS = true;</script>
         <script>
             var world;
             window.onload = function () {
-                var FPS = 60,
-                    lastTime = 0,
-
-                    loop = (timestamp) => {
-                        requestAnimationFrame(loop);
-                        if (timestamp - lastTime < 1000 / FPS) {
-                            return;
-                        }
-                        world.doOneCycle();
-                        lastTime = Math.max(
-                            lastTime + 1000 / FPS,
-                            timestamp - 1000 / FPS
-                        );
-                    };
+                var loop = () => {
+                    requestAnimationFrame(loop);
+                    world.doOneCycle();
+                };
 
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.register('sw.js');
                 }
+
                 world = new WorldMorph(document.getElementById('world'));
                 new IDE_Morph().openIn(world);
                 requestAnimationFrame(loop);
