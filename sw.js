@@ -841,7 +841,10 @@ var snapVersion = '11.0.0',
         'Examples/live-tree.xml',
         'Examples/swimmer.xml',
         'Examples/tree.xml',
-        'Examples/vee.xml'
+        'Examples/vee.xml',
+
+    // Project
+        'default.xml'
     ];
 
 console.log('service worker executed', snapVersion);
