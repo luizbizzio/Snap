@@ -45,7 +45,7 @@
         <script src="src/xml.js?version=2021-07-05"></script>
         <script src="src/store.js?version=2025-04-01"></script>
         <script src="src/locale.js?version=2025-08-29"></script>
-        <!-- <script src="src/cloud.js"></script> -->
+        <script src="src/cloud.js?version=2023-04-12"></script>
         <script src="src/api.js?version=2024-02-22"></script>
         <script src="src/embroider.js?version=2024-05-09"></script>
         <script src="src/sha512.js?version=2019-06-27"></script>
@@ -89,6 +89,30 @@
 
                 world = new WorldMorph(document.getElementById('world'));
                 new IDE_Morph().openIn(world);
+                requestAnimationFrame(loop);
+            };
+        </script>
+        <script>
+            var world, ide;
+            window.onload = function () {
+                var loop = () => {
+                    requestAnimationFrame(loop);
+                    world.doOneCycle();
+                };
+
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('sw.js');
+                }
+
+                world = new WorldMorph(document.getElementById('world'));
+                ide   = new IDE_Morph();
+                ide.openIn(world);
+
+                // 🔴 Desabilita a nuvem (offline mode)
+                if (ide.cloud) {
+                    ide.cloud.disable();
+                }
+
                 requestAnimationFrame(loop);
             };
         </script>
