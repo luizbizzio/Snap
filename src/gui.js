@@ -1546,7 +1546,7 @@ IDE_Morph.prototype.createControlBar = function () {
                 ' (' + myself.scene.name + ')' : '';
         name = (myself.getProjectName() || localize('untitled'));
         if (!myself.config.preserveTitle) {
-            document.title = "Snap! " +
+            document.title = "Mochicard " +
                 (myself.getProjectName() ? name : SnapVersion);
         }
         txt = new StringMorph(
