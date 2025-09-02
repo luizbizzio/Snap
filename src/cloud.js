@@ -1126,3 +1126,11 @@ Cloud.prototype.showProjectPath = function (username, projectname) {
         projectname: projectname
     });
 };
+
+Cloud.prototype.knownDomains = {};
+Cloud.prototype.request = function () {
+    return Promise.resolve(null);
+};
+Cloud.prototype.withCredentialsRequest = function () {
+    return Promise.resolve(null);
+};

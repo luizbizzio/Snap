@@ -356,6 +356,3 @@ IDE_Morph.prototype.setTranslation = function (countryCode, callback) {
     this.loadNewProject = false;
     this.setLanguage(countryCode, callback, true); // don't save
 };
-
-SnapAPI.request = function () { return Promise.resolve(null); };
-SnapAPI.init    = function () { return Promise.resolve(); };
