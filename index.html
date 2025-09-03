@@ -119,5 +119,34 @@
     </head>
     <body style="margin: 0;">
         <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
+      <script>
+      (function() {
+        const params = new URLSearchParams(location.search);
+        const wantsInstall = params.get('install') === '1';
+
+        if (wantsInstall && history.replaceState) {
+          const clean = location.pathname + location.hash;
+          history.replaceState(null, document.title, clean);
+        }
+
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+
+          if (wantsInstall && deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.finally(() => { deferredPrompt = null; });
+          } else {
+
+          }
+        });
+
+        window.addEventListener('appinstalled', () => {
+          console.log('PWA installed!');
+        });
+      })();
+      </script>
     </body>
 </html>
