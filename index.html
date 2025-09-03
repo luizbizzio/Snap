@@ -1,165 +1,156 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Mochicard</title>
-        <link rel="icon" href="src/favicon.ico" type="image/x-icon">
-        <link rel="manifest" href="manifest.json">
-        <link rel="apple-touch-icon" href="img/snap-icon-152.png">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="white"/>
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="mobile-web-app-status-bar-style" content="black">
-        <meta name="mobile-web-app-title" content="Mochicard">
-        <meta name="msapplication-TileImage" content="img/snap-icon-144.png">
-        <meta name="msapplication-TileColor" content="#FFFFFF">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mochicard</title>
 
-        <script>
-        (function () {
-          const DEFAULT_XML = 'default.xml';
-          const noHash = !location.hash || location.hash === '#' || !location.hash.trim();
-          if (noHash) {
-            const abs = new URL(DEFAULT_XML, location.href).href;
-            window.__autoOpenDefault = true;
-            location.replace('#open:' + encodeURIComponent(abs));
-          }
-        })();
-        </script>
+    <link rel="icon" href="src/favicon.ico" type="image/x-icon">
+    <!-- Se seu manifest chama manifest.webmanifest, troque aqui -->
+    <link rel="manifest" href="/editor/manifest.json">
+    <link rel="apple-touch-icon" href="img/snap-icon-152.png">
 
-        <script src="src/morphic.js?version=2025-03-20"></script>
-        <script src="src/symbols.js?version=2024-11-24"></script>
-        <script src="src/widgets.js?version=2025-03-17"></script>
-        <script src="src/blocks.js?version=2025-08-29"></script>
-        <script src="src/threads.js?version=2025-08-29"></script>
-        <script src="src/objects.js?version=2025-08-29"></script>
-        <script src="src/scenes.js?version=2024-05-28"></script>
-        <script src="src/gui.js?version=2025-08-29"></script>
-        <script src="src/paint.js?version=2023-05-24"></script>
-        <script src="src/lists.js?version=2025-06-12"></script>
-        <script src="src/byob.js?version=2025-05-13"></script>
-        <script src="src/tables.js?version=2025-04-03"></script>
-        <script src="src/sketch.js?version=2023-05-24"></script>
-        <script src="src/video.js?version=2019-06-27"></script>
-        <script src="src/maps.js?version=2021-06-15"></script>
-        <script src="src/extensions.js?version=2025-06-03"></script>
-        <script src="src/xml.js?version=2021-07-05"></script>
-        <script src="src/store.js?version=2025-04-01"></script>
-        <script src="src/locale.js?version=2025-08-29"></script>
-        <script src="src/cloud.js?version=2023-04-12"></script>
-        <script src="src/api.js?version=2024-02-22"></script>
-        <script src="src/embroider.js?version=2024-05-09"></script>
-        <script src="src/sha512.js?version=2019-06-27"></script>
-        <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="white"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-title" content="Mochicard">
+    <meta name="msapplication-TileImage" content="img/snap-icon-144.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
 
-        <script>
-        (function () {
-          const hook = () => {
-            const original = IDE_Morph.prototype.rawOpenProjectString;
-            IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
-              const result = original.call(this, xml, importMedia);
-              if (window.__autoOpenDefault &&
-                  location.hash &&
-                  (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
-                setTimeout(() => {
-                  history.replaceState(null, document.title, location.pathname);
-                  window.__autoOpenDefault = false;
-                }, 0);
-              }
-              return result;
-            };
+    <!-- PWA: captura ?install=1 e beforeinstallprompt O MAIS CEDO POSSÍVEL -->
+    <script>
+      // 1) Detecta ?install=1 e limpa a URL (mantém só path+hash)
+      window.__wantsInstall = new URLSearchParams(location.search).get('install') === '1';
+      if (window.__wantsInstall && history.replaceState) {
+        history.replaceState(null, document.title, location.pathname + location.hash);
+      }
+
+      // 2) Registra o Service Worker com escopo /editor/
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/editor/sw.js', { scope: '/editor/' })
+          .then(reg => console.log('[PWA] SW ok:', reg.scope))
+          .catch(err => console.error('[PWA] SW erro:', err));
+      }
+
+      // 3) Captura o evento de instalabilidade
+      window.__deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        console.log('[PWA] beforeinstallprompt');
+        e.preventDefault();
+        window.__deferredPrompt = e;
+
+        // Se veio com ?install=1, solicita o prompt já
+        if (window.__wantsInstall) {
+          e.prompt();
+          e.userChoice
+            .then(res => console.log('[PWA] userChoice:', res && res.outcome))
+            .finally(() => { window.__deferredPrompt = null; });
+        } else {
+          // Se quiser, você pode exibir um botão "Instalar" aqui:
+          // document.getElementById('installBtn')?.removeAttribute('hidden');
+        }
+      });
+
+      window.addEventListener('appinstalled', () => {
+        console.log('[PWA] App instalado!');
+      });
+    </script>
+
+    <!-- Auto-abrir projeto padrão se não houver hash -->
+    <script>
+      (function () {
+        const DEFAULT_XML = 'default.xml';
+        const noHash = !location.hash || location.hash === '#' || !location.hash.trim();
+        if (noHash) {
+          const abs = new URL(DEFAULT_XML, location.href).href;
+          window.__autoOpenDefault = true;
+          location.replace('#open:' + encodeURIComponent(abs));
+        }
+      })();
+    </script>
+
+    <!-- Snap! core -->
+    <script src="src/morphic.js?version=2025-03-20"></script>
+    <script src="src/symbols.js?version=2024-11-24"></script>
+    <script src="src/widgets.js?version=2025-03-17"></script>
+    <script src="src/blocks.js?version=2025-08-29"></script>
+    <script src="src/threads.js?version=2025-08-29"></script>
+    <script src="src/objects.js?version=2025-08-29"></script>
+    <script src="src/scenes.js?version=2024-05-28"></script>
+    <script src="src/gui.js?version=2025-08-29"></script>
+    <script src="src/paint.js?version=2023-05-24"></script>
+    <script src="src/lists.js?version=2025-06-12"></script>
+    <script src="src/byob.js?version=2025-05-13"></script>
+    <script src="src/tables.js?version=2025-04-03"></script>
+    <script src="src/sketch.js?version=2023-05-24"></script>
+    <script src="src/video.js?version=2019-06-27"></script>
+    <script src="src/maps.js?version=2021-06-15"></script>
+    <script src="src/extensions.js?version=2025-06-03"></script>
+    <script src="src/xml.js?version=2021-07-05"></script>
+    <script src="src/store.js?version=2025-04-01"></script>
+    <script src="src/locale.js?version=2025-08-29"></script>
+    <script src="src/cloud.js?version=2023-04-12"></script>
+    <script src="src/api.js?version=2024-02-22"></script>
+    <script src="src/embroider.js?version=2024-05-09"></script>
+    <script src="src/sha512.js?version=2019-06-27"></script>
+    <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+
+    <!-- Hook para limpar o hash após abrir o default -->
+    <script>
+      (function () {
+        const hook = () => {
+          const original = IDE_Morph.prototype.rawOpenProjectString;
+          IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
+            const result = original.call(this, xml, importMedia);
+            if (window.__autoOpenDefault &&
+                location.hash &&
+                (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
+              setTimeout(() => {
+                history.replaceState(null, document.title, location.pathname);
+                window.__autoOpenDefault = false;
+              }, 0);
+            }
+            return result;
           };
-          window.addEventListener('DOMContentLoaded', () => {
-            if (window.IDE_Morph) hook();
-          });
-        })();
-        </script>
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+          if (window.IDE_Morph) hook();
+        });
+      })();
+    </script>
 
-        <script>Process.prototype.enableJS = true;</script>
-        <script>
-            var world;
-            window.onload = function () {
-                var loop = () => {
-                    requestAnimationFrame(loop);
-                    world.doOneCycle();
-                };
+    <script>Process.prototype.enableJS = true;</script>
 
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('sw.js');
-                }
+    <!-- Bootstrap do Snap (APENAS UM onload) -->
+    <script>
+      var world, ide;
+      window.onload = function () {
+        var loop = () => { requestAnimationFrame(loop); world.doOneCycle(); };
 
-                world = new WorldMorph(document.getElementById('world'));
-                new IDE_Morph().openIn(world);
-                requestAnimationFrame(loop);
-            };
-        </script>
-        <script>
-            var world, ide;
-            window.onload = function () {
-                var loop = () => {
-                    requestAnimationFrame(loop);
-                    world.doOneCycle();
-                };
+        world = new WorldMorph(document.getElementById('world'));
+        ide   = new IDE_Morph();
+        ide.openIn(world);
 
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('sw.js');
-                }
+        // Offline-only: desabilita a nuvem
+        if (ide.cloud) { ide.cloud.disable(); }
 
-                world = new WorldMorph(document.getElementById('world'));
-                ide   = new IDE_Morph();
-                ide.openIn(world);
+        requestAnimationFrame(loop);
+      };
+    </script>
+  </head>
+  <body style="margin: 0;">
+    <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
 
-                // 🔴 Desabilita a nuvem (offline mode)
-                if (ide.cloud) {
-                    ide.cloud.disable();
-                }
-
-                requestAnimationFrame(loop);
-            };
-        </script>
-    </head>
-    <body style="margin: 0;">
-        <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
-<button id="installBtn" hidden>Instalar app</button>
-
-<script>
-(() => {
-  // 1) Detecta ?install=1 e limpa a URL
-  const wantsInstall = new URLSearchParams(location.search).get('install') === '1';
-  if (wantsInstall && history.replaceState) {
-    history.replaceState(null, document.title, location.pathname + location.hash);
-  }
-
-  let deferredPrompt = null;
-  const btn = document.getElementById('installBtn');
-
-  // 2) Captura o evento de instalabilidade
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    // 3) Tenta abrir o prompt automaticamente se veio com ?install=1
-    if (wantsInstall) {
-      e.prompt().catch(() => { btn.hidden = false; }); // se o navegador exigir gesto extra
-      e.userChoice.finally(() => deferredPrompt = null);
-    } else {
-      // Sem ?install=1: mostra botão manual
-      btn.hidden = false;
-    }
-  });
-
-  // 4) Clique no botão (fallback/gesto do usuário)
-  btn.addEventListener('click', () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.finally(() => deferredPrompt = null);
-    btn.hidden = true;
-  });
-
-  // (opcional) saber quando instalou
-  window.addEventListener('appinstalled', () => {
-    console.log('PWA instalada!');
-  });
-})();
-</script>
-    </body>
+    <!-- Botão opcional de fallback para instalar (mostre se quiser) -->
+    <!-- <button id="installBtn" hidden style="position:fixed;bottom:16px;right:16px;z-index:9999;">Instalar app</button> -->
+    <!-- <script>
+      document.getElementById('installBtn')?.addEventListener('click', function () {
+        if (window.__deferredPrompt) {
+          window.__deferredPrompt.prompt();
+          window.__deferredPrompt.userChoice.finally(() => { window.__deferredPrompt = null; });
+          this.hidden = true;
+        }
+      });
+    </script> -->
+  </body>
 </html>
