@@ -119,34 +119,64 @@
     </head>
     <body style="margin: 0;">
         <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
-      <script>
-      (function() {
-        const params = new URLSearchParams(location.search);
-        const wantsInstall = params.get('install') === '1';
+<script>
+(function() {
+  const params = new URLSearchParams(location.search);
+  const wantsInstall = params.get('install') === '1';
 
-        if (wantsInstall && history.replaceState) {
-          const clean = location.pathname + location.hash;
-          history.replaceState(null, document.title, clean);
-        }
+  console.log('[PWA] wantsInstall?', wantsInstall);
 
-        let deferredPrompt = null;
+  // Limpa ?install=1 da URL (opcional)
+  if (wantsInstall && history.replaceState) {
+    const clean = location.pathname + location.hash;
+    history.replaceState(null, document.title, clean);
+    console.log('[PWA] URL cleaned');
+  }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault();
-          deferredPrompt = e;
+  // Debug do manifest
+  (function checkManifest() {
+    const link = document.querySelector('link[rel="manifest"]');
+    console.log('[PWA] manifest link:', link ? link.getAttribute('href') : 'N/A');
+  })();
 
-          if (wantsInstall && deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.finally(() => { deferredPrompt = null; });
-          } else {
+  // Registro do SW com logs
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/editor/sw.js', { scope: '/editor/' })
+      .then(reg => console.log('[PWA] SW registered:', reg.scope))
+      .catch(err => console.error('[PWA] SW register error:', err));
+  } else {
+    console.warn('[PWA] ServiceWorker not supported');
+  }
 
-          }
-        });
+  let deferredPrompt = null;
 
-        window.addEventListener('appinstalled', () => {
-          console.log('PWA installed!');
-        });
-      })();
-      </script>
+  // Anexe o listener o quanto antes
+  window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('[PWA] beforeinstallprompt fired');
+    e.preventDefault();
+    deferredPrompt = e;
+
+    if (wantsInstall) {
+      console.log('[PWA] Prompting install due to ?install=1');
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice
+        .then(choice => console.log('[PWA] userChoice:', choice))
+        .finally(() => { deferredPrompt = null; });
+    } else {
+      console.log('[PWA] Install available but not auto-prompting');
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    console.log('[PWA] App installed!');
+  });
+
+  // Extra: ver estado do display-mode
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  console.log('[PWA] standalone?', isStandalone);
+
+})();
+</script>
+
     </body>
 </html>
