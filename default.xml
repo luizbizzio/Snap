@@ -191,7 +191,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl write number %&apos;num&apos; on LED MATRIX" type="command" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 escribe numero _ en MATRICES LED&#xD;ca:$MochiCard-1.5-127-255-212 escriu nombre _ en MATRIUS LED&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 escribe numero _ en MATRICES LED&#xD;
+					ca:$MochiCard-1.5-127-255-212 escriu nombre _ en MATRIUS LED&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 escreve número _ em MATRIZES LED&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 escreve número _ nas MATRIZES LED&#xD;
+					</translations>
 					<inputs>
 						<input type="%n">0</input>
 					</inputs>
@@ -241,7 +246,12 @@
 					<comment x="0" y="0" w="275" collapsed="false">set the color of RGB leds&#xD;mochi card - Domingo Alcalá &apos;23&#xD;&#xD;firmware 2.0 or higher is needed</comment>
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 color led RGB _ $R-0.8-255-0-0 _ $G-0.8-0-255-0 _ $B-0.8-0-0-255 _&#xD;ca:$MochiCard-1.5-127-255-212 posa color RGB led _ $R-0.8-255-0-0 _ $G-0.8-0-255-0 _ $B-0.8-0-0-255 _&#xD;</translations>
+					<translations>
+			  		es:$MochiCard-1.5-127-255-212 color led RGB _ $R-0.8-255-0-0 _ $G-0.8-0-255-0 _ $B-0.8-0-0-255 _&#xD;
+			  		ca:$MochiCard-1.5-127-255-212 posa color RGB led _ $R-0.8-255-0-0 _ $G-0.8-0-255-0 _ $B-0.8-0-0-255 _&#xD;
+			  		pt-PT:$MochiCard-1.5-127-255-212 cor do LED RGB _ $R-0.8-255-0-0 _ $G-0.8-0-255-0 _ $B-0.8-0-0-255 _&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 cor do LED RGB _ $R-0.8-255-0-0 _ $G-0.8-0-255-0 _ $B-0.8-0-0-255 _&#xD;
+					</translations>
 					<inputs>
 						<input type="%n">1
 							<options>1&#xD;2&#xD;3&#xD;4</options>
@@ -285,7 +295,13 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl consulta version firmware" type="reporter" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ consulta versión firmware&#xD;ca:$MochiCard-1.5-127-255-212 _ consulta versió programari&#xD;en:$MochiCard-1.5-127-255-212 _ ask firmware version&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ consulta versión firmware&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ consulta versió programari&#xD;
+					en:$MochiCard-1.5-127-255-212 _ ask firmware version&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ consultar versão do firmware&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ verificar versão do firmware&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doReport">
@@ -1095,7 +1111,13 @@
 					</variables>
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ conectar $cloudOutline&#xD;ca:$MochiCard-1.5-127-255-212 _ connectar $cloudOutline&#xD;en:$MochiCard-1.5-127-255-212 _ connect $cloudOutline&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ conectar $cloudOutline&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ connectar $cloudOutline&#xD;
+					en:$MochiCard-1.5-127-255-212 _ connect $cloudOutline&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ ligar $cloudOutline&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ conectar $cloudOutline&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doApplyExtension">
@@ -2035,7 +2057,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl change of scale $nl (value) %&apos;x&apos; (min input) %&apos;xmin&apos; (max input) %&apos;xmax&apos; (min output) %&apos;ymin&apos; (max output) %&apos;ymax&apos;" type="reporter" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ cambio de escala _ (valor) _ (entrada min) _ (entrada max) _ (salida min) _ (salida max) _&#xD;ca:$MochiCard-1.5-127-255-212 _ canvi d&apos;escala _ (valor) _ (entrada min) _ (entrada max) _ (sortida min) _ (sortida max) _&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ cambio de escala _ (valor) _ (entrada min) _ (entrada max) _ (salida min) _ (salida max) _&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ canvi d&apos;escala _ (valor) _ (entrada min) _ (entrada max) _ (sortida min) _ (sortida max) _&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ mudança de escala _ (valor) _ (entrada mín) _ (entrada máx) _ (saída mín) _ (saída máx) _&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ alteração de escala _ (valor) _ (entrada mín) _ (entrada máx) _ (saída mín) _ (saída máx) _&#xD;
+					</translations>
 					<inputs>
 						<input type="%n"></input>
 						<input type="%n"></input>
@@ -2071,7 +2098,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl get Humidity %" type="reporter" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ obtiene humedad %&#xD;ca:$MochiCard-1.5-127-255-212 _ mesura humitat %&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ obtiene humedad %&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ mesura humitat %&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ mede humidade %&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ mede umidade %&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doReport">
@@ -2081,7 +2113,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl get Temperature ºC" type="reporter" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ obtiene temperatura ºC&#xD;ca:$MochiCard-1.5-127-255-212 _ mesura temperatura ºC&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ obtiene temperatura ºC&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ mesura temperatura ºC&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ mede temperatura ºC&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ mede temperatura ºC&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doReport">
@@ -2091,7 +2128,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl pixel on $(column)-0.8-0-0-0 %&apos;x&apos; $(row)-0.8-0-0-0 %&apos;y&apos;" type="command" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ ilumina pixel $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;ca:$MochiCard-1.5-127-255-212 _ activa pixel $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ ilumina pixel $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ activa pixel $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ acende píxel $(coluna)-0.8-0-0-0 _ $(linha)-0.8-0-0-0 _&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ ilumina pixel $(coluna)-0.8-0-0-0 _ $(linha)-0.8-0-0-0 _&#xD;
+					</translations>
 					<inputs>
 						<input type="%n">0</input>
 						<input type="%n">0</input>
@@ -2158,7 +2200,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl pixel off $(column)-0.8-0-0-0 %&apos;x&apos; $(row)-0.8-0-0-0 %&apos;y&apos;" type="command" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ pixel off $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;ca:$MochiCard-1.5-127-255-212 _ apaga pixel $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ pixel off $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ apaga pixel $(columna)-0.8-0-0-0 _ $(fila)-0.8-0-0-0 _&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ apaga píxel $(coluna)-0.8-0-0-0 _ $(linha)-0.8-0-0-0 _&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ desliga pixel $(coluna)-0.8-0-0-0 _ $(linha)-0.8-0-0-0 _&#xD;
+					</translations>
 					<inputs>
 						<input type="%n">0</input>
 						<input type="%n">0</input>
@@ -2226,7 +2273,12 @@
 					<comment x="0" y="0" w="89.99999999999999" collapsed="false">set all matrix leds to off</comment>
 					<header></header>
 					<code></code>
-					<translations>ca:$MochiCard-1.5-127-255-212 _ esborra pantalla&#xD;es:$MochiCard-1.5-127-255-212 _ limpia pantalla&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ limpia pantalla&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ esborra pantalla&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ limpa ecrã&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ limpa tela&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doAddToList">
@@ -2278,7 +2330,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl print text %&apos;text&apos; and wait" type="command" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ escribe texto _ y espera&#xD;ca:$MochiCard-1.5-127-255-212 _ excriu text _ i espera&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ escribe texto _ y espera&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ excriu text _ i espera&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ escreve texto _ e espera&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ escreve texto _ e aguarda&#xD;
+					</translations>
 					<inputs>
 						<input type="%txt"></input>
 					</inputs>
@@ -2391,7 +2448,13 @@
 					</variables>
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ nuevo sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;ca:$MochiCard-1.5-127-255-212 _ nou sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;en:$MochiCard-1.5-127-255-212 _ new sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ nuevo sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ nou sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ novo sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ novo sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;
+					en:$MochiCard-1.5-127-255-212 _ new sprite _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _&#xD;
+					</translations>
 					<inputs>
 						<input type="%b">false</input>
 						<input type="%b">false</input>
@@ -2546,7 +2609,13 @@
 					<comment x="0" y="0" w="275" collapsed="false">check the pattern of pressed and released buttons&#xD;mochi card - Domingo Alcalá &apos;23&#xD;&#xD;firmware 2.0 or higher is needed</comment>
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ ¿pulsadores activos? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;ca:$MochiCard-1.5-127-255-212 _ polsadors actius? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;en:$MochiCard-1.5-127-255-212 _ buttons active? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ ¿pulsadores activos? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ polsadors actius? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ botões ativos? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ botões ativos? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;
+					en:$MochiCard-1.5-127-255-212 _ buttons active? _ _ $(A)-1.2-255-0-0 _ $(U)-1.2-0-255-0 _ _ $(B)-1.2-0-0-255 _&#xD;
+					</translations>
 					<inputs>
 						<input type="%b">false
 							<options>5&#xD;6&#xD;7</options>
@@ -2777,7 +2846,12 @@
 				<block-definition s="$MochiCard-1.5-127-255-212 $nl get light intensity" type="reporter" category="Mochi Card">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-127-255-212 _ mide luminosidad&#xD;ca:$MochiCard-1.5-127-255-212 _ mesura lluminositat&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-127-255-212 _ mide luminosidad&#xD;
+					ca:$MochiCard-1.5-127-255-212 _ mesura lluminositat&#xD;
+					pt-PT:$MochiCard-1.5-127-255-212 _ mede luminosidade&#xD;
+					pt-BR:$MochiCard-1.5-127-255-212 _ mede luminosidade&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doReport">
@@ -3961,7 +4035,12 @@
 					</variables>
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ ajustar RGB fácilmente _ _ _ _ _&#xD;ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ ajustar RBG fàcilment _ _ _ _ _&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ ajustar RGB fácilmente _ _ _ _ _&#xD;
+					ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ ajustar RBG fàcilment _ _ _ _ _&#xD;
+					pt-PT:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ ajustar RGB facilmente _ _ _ _ _&#xD;
+					pt-BR:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ ajustar RGB facilmente _ _ _ _ _&#xD;
+					</translations>
 					<inputs>
 						<input type="%b">false</input>
 						<input type="%b">false</input>
@@ -4066,7 +4145,12 @@
 				<block-definition s="$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 $nl get angle Y (2)" type="reporter" category="Mochi Card 3">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ obtiene angulo Y&#xD;ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mesura angle Y&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ obtiene angulo Y&#xD;
+					ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mesura angle Y&#xD;
+					pt-PT:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mede ângulo Y&#xD;
+					pt-BR:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mede ângulo Y&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doReport">
@@ -4076,7 +4160,12 @@
 				<block-definition s="$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 $nl is shaked &gt; %&apos;shake_th&apos; ?" type="predicate" category="Mochi Card 3">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ se ha agitado &gt; _ ?&#xD;ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ s&apos;ha sacsejat &gt; _ ?&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ se ha agitado &gt; _ ?&#xD;
+					ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ s&apos;ha sacsejat &gt; _ ?&#xD;
+					pt-PT:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ foi agitado &gt; _ ?&#xD;
+					pt-BR:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ foi chacoalhado &gt; _ ?&#xD;
+					</translations>
 					<inputs>
 						<input type="%n">10</input>
 					</inputs>
@@ -4094,7 +4183,12 @@
 				<block-definition s="$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 $nl get angle X" type="reporter" category="Mochi Card 3">
 					<header></header>
 					<code></code>
-					<translations>es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ obtiene angulo X&#xD;ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mesura angle X&#xD;</translations>
+					<translations>
+					es:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ obtiene angulo X&#xD;
+					ca:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mesura angle X&#xD;
+					pt-PT:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mede ângulo X&#xD;
+					pt-BR:$MochiCard-1.5-255-0-255 $3-1.5-255-0-255 _ mede ângulo X&#xD;
+					</translations>
 					<inputs></inputs>
 					<script>
 						<block s="doReport">
