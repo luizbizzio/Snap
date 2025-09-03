@@ -119,64 +119,47 @@
     </head>
     <body style="margin: 0;">
         <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
+<button id="installBtn" hidden>Instalar app</button>
+
 <script>
-(function() {
-  const params = new URLSearchParams(location.search);
-  const wantsInstall = params.get('install') === '1';
-
-  console.log('[PWA] wantsInstall?', wantsInstall);
-
-  // Limpa ?install=1 da URL (opcional)
+(() => {
+  // 1) Detecta ?install=1 e limpa a URL
+  const wantsInstall = new URLSearchParams(location.search).get('install') === '1';
   if (wantsInstall && history.replaceState) {
-    const clean = location.pathname + location.hash;
-    history.replaceState(null, document.title, clean);
-    console.log('[PWA] URL cleaned');
-  }
-
-  // Debug do manifest
-  (function checkManifest() {
-    const link = document.querySelector('link[rel="manifest"]');
-    console.log('[PWA] manifest link:', link ? link.getAttribute('href') : 'N/A');
-  })();
-
-  // Registro do SW com logs
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/editor/sw.js', { scope: '/editor/' })
-      .then(reg => console.log('[PWA] SW registered:', reg.scope))
-      .catch(err => console.error('[PWA] SW register error:', err));
-  } else {
-    console.warn('[PWA] ServiceWorker not supported');
+    history.replaceState(null, document.title, location.pathname + location.hash);
   }
 
   let deferredPrompt = null;
+  const btn = document.getElementById('installBtn');
 
-  // Anexe o listener o quanto antes
+  // 2) Captura o evento de instalabilidade
   window.addEventListener('beforeinstallprompt', (e) => {
-    console.log('[PWA] beforeinstallprompt fired');
     e.preventDefault();
     deferredPrompt = e;
 
+    // 3) Tenta abrir o prompt automaticamente se veio com ?install=1
     if (wantsInstall) {
-      console.log('[PWA] Prompting install due to ?install=1');
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice
-        .then(choice => console.log('[PWA] userChoice:', choice))
-        .finally(() => { deferredPrompt = null; });
+      e.prompt().catch(() => { btn.hidden = false; }); // se o navegador exigir gesto extra
+      e.userChoice.finally(() => deferredPrompt = null);
     } else {
-      console.log('[PWA] Install available but not auto-prompting');
+      // Sem ?install=1: mostra botão manual
+      btn.hidden = false;
     }
   });
 
-  window.addEventListener('appinstalled', () => {
-    console.log('[PWA] App installed!');
+  // 4) Clique no botão (fallback/gesto do usuário)
+  btn.addEventListener('click', () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.finally(() => deferredPrompt = null);
+    btn.hidden = true;
   });
 
-  // Extra: ver estado do display-mode
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-  console.log('[PWA] standalone?', isStandalone);
-
+  // (opcional) saber quando instalou
+  window.addEventListener('appinstalled', () => {
+    console.log('PWA instalada!');
+  });
 })();
 </script>
-
     </body>
 </html>
