@@ -27,7 +27,7 @@
 
       // 2) Registra o Service Worker com escopo /editor/
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/editor/sw.js', { scope: '/editor/' })
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
           .then(reg => console.log('[PWA] SW ok:', reg.scope))
           .catch(err => console.error('[PWA] SW erro:', err));
       }
