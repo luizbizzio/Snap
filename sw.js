@@ -1,7 +1,7 @@
 /*global self, caches*/
 /*jshint esversion: 6*/
 var snapVersion = '11.0.0',
-    cacheName = `snap-pwa-${snapVersion}`,
+    cacheName = `mochicard-pwa-${snapVersion}`,
     filesToCache = [
         'index.html',
 
