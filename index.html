@@ -50,6 +50,10 @@
         .install-modal { border-radius: 12px; padding: 16px; }
         .install-title { font-size: 1rem; }
       }
+    .install-modal, .install-modal * {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
     </style>
 
     <script>
@@ -122,15 +126,15 @@
     <div id="installOverlay" class="install-overlay" role="dialog" aria-modal="true" aria-labelledby="installTitle">
       <div class="install-modal">
         <header>
-          <h3 id="installTitle" class="install-title">Instalar MochiCard</h3>
+          <h3 id="installTitle" class="install-title">Install MochiCard</h3>
           <button class="install-close" aria-label="Fechar" id="installClose">✕</button>
         </header>
         <div class="install-body" id="installBody">
-          Instale a PWA para abrir mais rápido e usar em tela cheia.
+          Install the PWA to use MochiCard offline, no Wi-Fi or internet needed.
         </div>
         <div class="install-actions" id="installActions">
-          <button class="btn btn-secondary" id="installLater">Depois</button>
-          <button class="btn btn-primary" id="installNow">Instalar</button>
+          <button class="btn btn-secondary" id="installLater">Later</button>
+          <button class="btn btn-primary" id="installNow">Install</button>
         </div>
       </div>
     </div>
