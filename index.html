@@ -156,7 +156,7 @@
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        if (hasInstallParam() && !isAppInstalled() || shouldShowWhenReady) {
+        if ((hasInstallParam() && !isAppInstalled()) || shouldShowWhenReady) {
           openInstallModal();
         }
       });
@@ -195,13 +195,10 @@
         document.getElementById('installOverlay').style.display = 'none';
       }
 
-      // fechar com X e clique fora
+      // fechar só com X e Later
       window.addEventListener('DOMContentLoaded', () => {
-        const overlay = document.getElementById('installOverlay');
         document.getElementById('installClose').onclick = closeInstallModal;
-        overlay.addEventListener('click', (e) => {
-          if (e.target === overlay) closeInstallModal();
-        });
+        document.getElementById('installLater').onclick = closeInstallModal;
       });
 
       // -------- onload único ----------
