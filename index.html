@@ -50,10 +50,10 @@
         .install-modal { border-radius: 12px; padding: 16px; }
         .install-title { font-size: 1rem; }
       }
-    .install-modal, .install-modal * {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
-
+      
+      .install-modal, .install-modal * {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
     </style>
 
     <script>
@@ -127,10 +127,10 @@
       <div class="install-modal">
         <header>
           <h3 id="installTitle" class="install-title">Install MochiCard</h3>
-          <button class="install-close" aria-label="Fechar" id="installClose">✕</button>
+          <button class="install-close" aria-label="Close" id="installClose">✕</button>
         </header>
         <div class="install-body" id="installBody">
-          Install the PWA to use MochiCard offline, no Wi-Fi or internet needed.
+          Install the PWA to use MochiCard offline — no Wi-Fi or internet needed.
         </div>
         <div class="install-actions" id="installActions">
           <button class="btn btn-secondary" id="installLater">Later</button>
@@ -143,8 +143,12 @@
       // -------- util ----------
       const hasInstallParam = () => new URLSearchParams(location.search).get('install') === '1';
       const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+      const isAppInstalled = () => {
+        if (window.matchMedia('(display-mode: standalone)').matches) return true;
+        if ('standalone' in navigator && navigator.standalone) return true;
+        return false;
+      };
 
-      // Uma única declaração global
       let world, ide, deferredPrompt = null;
       let shouldShowWhenReady = false;
 
@@ -152,12 +156,13 @@
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        if (hasInstallParam() || shouldShowWhenReady) {
+        if (hasInstallParam() && !isAppInstalled() || shouldShowWhenReady) {
           openInstallModal();
         }
       });
 
       function openInstallModal() {
+        if (isAppInstalled()) return; // não abre se já instalado
         const overlay = document.getElementById('installOverlay');
         const bodyEl = document.getElementById('installBody');
         const actionsEl = document.getElementById('installActions');
@@ -166,9 +171,9 @@
         // iOS fallback
         if (isIOS() && !deferredPrompt) {
           bodyEl.innerHTML = `
-            No iOS, toque em <b>Compartilhar</b> e depois em <b>“Adicionar à Tela de Início”</b>.
+            On iOS, tap <b>Share</b> and then <b>“Add to Home Screen”</b>.
           `;
-          actionsEl.innerHTML = `<button class="btn btn-primary" id="installOk">Entendi</button>`;
+          actionsEl.innerHTML = `<button class="btn btn-primary" id="installOk">Got it</button>`;
           document.getElementById('installOk').onclick = closeInstallModal;
           return;
         }
@@ -201,12 +206,10 @@
 
       // -------- onload único ----------
       window.onload = function () {
-        // Service Worker
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('sw.js');
         }
 
-        // Snap!/Morphic
         const loop = () => { requestAnimationFrame(loop); world.doOneCycle(); };
         world = new WorldMorph(document.getElementById('world'));
         ide   = new IDE_Morph();
@@ -214,8 +217,7 @@
         if (ide.cloud) { ide.cloud.disable(); }
         requestAnimationFrame(loop);
 
-        // Modal com ?install=1
-        if (hasInstallParam()) {
+        if (hasInstallParam() && !isAppInstalled()) {
           if (deferredPrompt) {
             setTimeout(openInstallModal, 600);
           } else {
