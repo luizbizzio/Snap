@@ -1,122 +1,228 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Mochicard</title>
-        <link rel="icon" href="src/favicon.ico" type="image/x-icon">
-        <link rel="manifest" href="manifest.json">
-        <link rel="apple-touch-icon" href="img/snap-icon-152.png">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="white"/>
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="mobile-web-app-status-bar-style" content="black">
-        <meta name="mobile-web-app-title" content="Mochicard">
-        <meta name="msapplication-TileImage" content="img/snap-icon-144.png">
-        <meta name="msapplication-TileColor" content="#FFFFFF">
+  <head>
+    <title>Mochicard</title>
+    <link rel="icon" href="src/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="img/snap-icon-152.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="white"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-title" content="Mochicard">
+    <meta name="msapplication-TileImage" content="img/snap-icon-144.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
 
-        <script>
-        (function () {
-          const DEFAULT_XML = 'default.xml';
-          const noHash = !location.hash || location.hash === '#' || !location.hash.trim();
-          if (noHash) {
-            const abs = new URL(DEFAULT_XML, location.href).href;
-            window.__autoOpenDefault = true;
-            location.replace('#open:' + encodeURIComponent(abs));
-          }
-        })();
-        </script>
+    <style>
+      .install-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        background: rgba(0,0,0,0.35);
+        z-index: 9999;
+        padding: 16px;
+      }
+      .install-modal {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        padding: 20px;
+      }
+      .install-modal header {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; margin-bottom: 12px;
+      }
+      .install-title { font-size: 1.1rem; font-weight: 700; margin: 0; }
+      .install-close { border: 0; background: transparent; font-size: 1.2rem; cursor: pointer; }
+      .install-body { font-size: .95rem; line-height: 1.4; margin-bottom: 16px; }
+      .install-actions { display: flex; gap: 8px; justify-content: flex-end; }
+      .btn { appearance: none; border: 0; cursor: pointer; border-radius: 10px; padding: 10px 14px; font-weight: 600; }
+      .btn-secondary { background: #f1f3f5; }
+      .btn-primary   { background: #111; color: #fff; }
+      @media (max-width: 380px) {
+        .install-modal { border-radius: 12px; padding: 16px; }
+        .install-title { font-size: 1rem; }
+      }
+    </style>
 
-        <script src="src/morphic.js?version=2025-03-20"></script>
-        <script src="src/symbols.js?version=2024-11-24"></script>
-        <script src="src/widgets.js?version=2025-03-17"></script>
-        <script src="src/blocks.js?version=2025-08-29"></script>
-        <script src="src/threads.js?version=2025-08-29"></script>
-        <script src="src/objects.js?version=2025-08-29"></script>
-        <script src="src/scenes.js?version=2024-05-28"></script>
-        <script src="src/gui.js?version=2025-08-29"></script>
-        <script src="src/paint.js?version=2023-05-24"></script>
-        <script src="src/lists.js?version=2025-06-12"></script>
-        <script src="src/byob.js?version=2025-05-13"></script>
-        <script src="src/tables.js?version=2025-04-03"></script>
-        <script src="src/sketch.js?version=2023-05-24"></script>
-        <script src="src/video.js?version=2019-06-27"></script>
-        <script src="src/maps.js?version=2021-06-15"></script>
-        <script src="src/extensions.js?version=2025-06-03"></script>
-        <script src="src/xml.js?version=2021-07-05"></script>
-        <script src="src/store.js?version=2025-04-01"></script>
-        <script src="src/locale.js?version=2025-08-29"></script>
-        <script src="src/cloud.js?version=2023-04-12"></script>
-        <script src="src/api.js?version=2024-02-22"></script>
-        <script src="src/embroider.js?version=2024-05-09"></script>
-        <script src="src/sha512.js?version=2019-06-27"></script>
-        <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+    <script>
+      (function () {
+        const DEFAULT_XML = 'default.xml';
+        const noHash = !location.hash || location.hash === '#' || !location.hash.trim();
+        if (noHash) {
+          const abs = new URL(DEFAULT_XML, location.href).href;
+          window.__autoOpenDefault = true;
+          location.replace('#open:' + encodeURIComponent(abs));
+        }
+      })();
+    </script>
 
-        <script>
-        (function () {
-          const hook = () => {
-            const original = IDE_Morph.prototype.rawOpenProjectString;
-            IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
-              const result = original.call(this, xml, importMedia);
-              if (window.__autoOpenDefault &&
-                  location.hash &&
-                  (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
-                setTimeout(() => {
-                  history.replaceState(null, document.title, location.pathname);
-                  window.__autoOpenDefault = false;
-                }, 0);
-              }
-              return result;
-            };
+    <script src="src/morphic.js?version=2025-03-20"></script>
+    <script src="src/symbols.js?version=2024-11-24"></script>
+    <script src="src/widgets.js?version=2025-03-17"></script>
+    <script src="src/blocks.js?version=2025-08-29"></script>
+    <script src="src/threads.js?version=2025-08-29"></script>
+    <script src="src/objects.js?version=2025-08-29"></script>
+    <script src="src/scenes.js?version=2024-05-28"></script>
+    <script src="src/gui.js?version=2025-08-29"></script>
+    <script src="src/paint.js?version=2023-05-24"></script>
+    <script src="src/lists.js?version=2025-06-12"></script>
+    <script src="src/byob.js?version=2025-05-13"></script>
+    <script src="src/tables.js?version=2025-04-03"></script>
+    <script src="src/sketch.js?version=2023-05-24"></script>
+    <script src="src/video.js?version=2019-06-27"></script>
+    <script src="src/maps.js?version=2021-06-15"></script>
+    <script src="src/extensions.js?version=2025-06-03"></script>
+    <script src="src/xml.js?version=2021-07-05"></script>
+    <script src="src/store.js?version=2025-04-01"></script>
+    <script src="src/locale.js?version=2025-08-29"></script>
+    <script src="src/cloud.js?version=2023-04-12"></script>
+    <script src="src/api.js?version=2024-02-22"></script>
+    <script src="src/embroider.js?version=2024-05-09"></script>
+    <script src="src/sha512.js?version=2019-06-27"></script>
+    <script src="src/FileSaver.min.js?version=2019-06-27"></script>
+
+    <script>
+      (function () {
+        const hook = () => {
+          const original = IDE_Morph.prototype.rawOpenProjectString;
+          IDE_Morph.prototype.rawOpenProjectString = function (xml, importMedia) {
+            const result = original.call(this, xml, importMedia);
+            if (window.__autoOpenDefault &&
+                location.hash &&
+                (location.hash.startsWith('#open:') || location.hash.startsWith('#present:'))) {
+              setTimeout(() => {
+                history.replaceState(null, document.title, location.pathname);
+                window.__autoOpenDefault = false;
+              }, 0);
+            }
+            return result;
           };
-          window.addEventListener('DOMContentLoaded', () => {
-            if (window.IDE_Morph) hook();
-          });
-        })();
-        </script>
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+          if (window.IDE_Morph) hook();
+        });
+      })();
+    </script>
 
-        <script>Process.prototype.enableJS = true;</script>
-        <script>
-            var world;
-            window.onload = function () {
-                var loop = () => {
-                    requestAnimationFrame(loop);
-                    world.doOneCycle();
-                };
+    <script>Process.prototype.enableJS = true;</script>
+  </head>
 
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('sw.js');
-                }
+  <body style="margin: 0;">
+    <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
 
-                world = new WorldMorph(document.getElementById('world'));
-                new IDE_Morph().openIn(world);
-                requestAnimationFrame(loop);
-            };
-        </script>
-        <script>
-            var world, ide;
-            window.onload = function () {
-                var loop = () => {
-                    requestAnimationFrame(loop);
-                    world.doOneCycle();
-                };
+    <!-- Modal de instalação -->
+    <div id="installOverlay" class="install-overlay" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+      <div class="install-modal">
+        <header>
+          <h3 id="installTitle" class="install-title">Instalar MochiCard</h3>
+          <button class="install-close" aria-label="Fechar" id="installClose">✕</button>
+        </header>
+        <div class="install-body" id="installBody">
+          Instale a PWA para abrir mais rápido e usar em tela cheia.
+        </div>
+        <div class="install-actions" id="installActions">
+          <button class="btn btn-secondary" id="installLater">Depois</button>
+          <button class="btn btn-primary" id="installNow">Instalar</button>
+        </div>
+      </div>
+    </div>
 
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('sw.js');
-                }
+    <script>
+      // -------- util ----------
+      const hasInstallParam = () => new URLSearchParams(location.search).get('install') === '1';
+      const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
 
-                world = new WorldMorph(document.getElementById('world'));
-                ide   = new IDE_Morph();
-                ide.openIn(world);
+      // Uma única declaração global
+      let world, ide, deferredPrompt = null;
+      let shouldShowWhenReady = false;
 
-                if (ide.cloud) {
-                    ide.cloud.disable();
-                }
+      // beforeinstallprompt (Chrome/Edge/Android)
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (hasInstallParam() || shouldShowWhenReady) {
+          openInstallModal();
+        }
+      });
 
-                requestAnimationFrame(loop);
-            };
-        </script>
-    </head>
-    <body style="margin: 0;">
-        <canvas id="world" tabindex="1" style="position: absolute;"></canvas>
-    </body>
+      function openInstallModal() {
+        const overlay = document.getElementById('installOverlay');
+        const bodyEl = document.getElementById('installBody');
+        const actionsEl = document.getElementById('installActions');
+        overlay.style.display = 'flex';
+
+        // iOS fallback
+        if (isIOS() && !deferredPrompt) {
+          bodyEl.innerHTML = `
+            No iOS, toque em <b>Compartilhar</b> e depois em <b>“Adicionar à Tela de Início”</b>.
+          `;
+          actionsEl.innerHTML = `<button class="btn btn-primary" id="installOk">Entendi</button>`;
+          document.getElementById('installOk').onclick = closeInstallModal;
+          return;
+        }
+
+        // Fluxo padrão
+        const installNow = document.getElementById('installNow');
+        const installLater = document.getElementById('installLater');
+        installNow.onclick = async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          closeInstallModal();
+        };
+        installLater.onclick = closeInstallModal;
+      }
+
+      function closeInstallModal() {
+        document.getElementById('installOverlay').style.display = 'none';
+      }
+
+      // fechar com X e clique fora
+      window.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.getElementById('installOverlay');
+        document.getElementById('installClose').onclick = closeInstallModal;
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closeInstallModal();
+        });
+      });
+
+      // -------- onload único ----------
+      window.onload = function () {
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js');
+        }
+
+        // Snap!/Morphic
+        const loop = () => { requestAnimationFrame(loop); world.doOneCycle(); };
+        world = new WorldMorph(document.getElementById('world'));
+        ide   = new IDE_Morph();
+        ide.openIn(world);
+        if (ide.cloud) { ide.cloud.disable(); }
+        requestAnimationFrame(loop);
+
+        // Modal com ?install=1
+        if (hasInstallParam()) {
+          if (deferredPrompt) {
+            setTimeout(openInstallModal, 600);
+          } else {
+            if (isIOS()) {
+              setTimeout(openInstallModal, 600);
+            } else {
+              shouldShowWhenReady = true;
+            }
+          }
+        }
+      };
+    </script>
+  </body>
 </html>
